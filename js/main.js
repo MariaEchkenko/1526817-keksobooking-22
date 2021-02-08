@@ -63,6 +63,24 @@ const getRandomElementFromArray = (elements) => {
 };
 
 /**
+ * Функция, возвращающая массив случайной длины. Значения не должны повторяться
+ * @param {array} array - исходный массив
+ * @return {array} - массив случайной длины
+ */
+const getRandomArray = (array) => {
+  let initialArray = array.slice();
+  let newArray = [];
+  const RANDOMCOUNTELEMENTS = getRandomInteger(1, array.length);
+
+  while (initialArray.length > 0) {
+    let randomIndex = getRandomInteger(0, initialArray.length - 1);
+    let randomElement = initialArray.splice(randomIndex, 1)[0];
+    newArray.push(randomElement);
+  }
+  return newArray.slice(0, RANDOMCOUNTELEMENTS);
+};
+
+/**
  * Функция, генерирующая случайное объявление
  * @return {object}
  */
@@ -82,9 +100,9 @@ const createAd = () => {
       type: getRandomElementFromArray(TYPES),
       checkin: getRandomElementFromArray(CHECK_TIME),
       checkout: getRandomElementFromArray(CHECK_TIME),
-      features: FEATURES.slice(0, getRandomInteger(1, FEATURES.length)),
+      features: getRandomArray(FEATURES),
       description: 'Описание',
-      photos: PHOTOS.slice(0, getRandomInteger(1, PHOTOS.length)),
+      photos: getRandomArray(PHOTOS),
     },
     location: {
       x: x,
@@ -95,4 +113,4 @@ const createAd = () => {
 
 const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
 
-similarAds ();
+console.log(similarAds);
