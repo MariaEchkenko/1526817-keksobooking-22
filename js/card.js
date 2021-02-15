@@ -6,8 +6,27 @@ const propertyType = {
   house: 'Дом',
   bungalow: 'Бунгало',
 };
+const ROOMS = ['комната', 'комнаты', 'комнат'];
+const GUESTS = ['гостя', 'гостей', 'гостей'];
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+/**
+ * Функция для склонения существительных
+ * @param {number} numeral - числовое значение
+ * @param {array} declension - массив с вариантами склонения существительного
+ * @return {*}
+ */
+const makePlural = (numeral, declension) => {
+  let n = numeral % 10;
+  if (n == 1 & numeral != 11) {
+    return numeral + ' ' +  declension[0];
+  }
+  if (n == 2 || n == 3 || n == 4) {
+    return numeral + ' ' + declension[1];
+  }
+  return numeral + ' ' +  declension[2];
+}
 
 /**
  * Функция для создания списка преимуществ
@@ -47,7 +66,7 @@ const createCardElement = (createAd) => {
   card.querySelector('.popup__text--address').textContent = createAd.offer.address;
   card.querySelector('.popup__text--price').textContent = createAd.offer.price + ' ₽/ночь'; //Переписать шаблонными строками
   card.querySelector('.popup__type').textContent = propertyType[createAd.offer.type];
-  card.querySelector('.popup__text--capacity').textContent = createAd.offer.rooms + ' комнаты для ' + createAd.offer.guests + ' гостей'; //Переписать шаблонными строками
+  card.querySelector('.popup__text--capacity').textContent = makePlural(createAd.offer.rooms, ROOMS) + ' для ' + makePlural(createAd.offer.guests, GUESTS); //Переписать шаблонными строками
   card.querySelector('.popup__text--time').textContent = 'Заезд после ' + createAd.offer.checkin + ', выезд до  ' + createAd.offer.checkout;
   card.querySelector('.popup__description').textContent = createAd.offer.description;
 
@@ -66,4 +85,3 @@ const createCardElement = (createAd) => {
 };
 
 export {createCardElement};
-
