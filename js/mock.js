@@ -1,10 +1,12 @@
 import {getRandomInteger, getRandomDecimalNumber, getRandomElementFromArray, getRandomArray} from './util.js'
 
-const MIN_X = 35.65;
-const MAX_X = 35.7;
-const MIN_Y = 139.7;
-const MAX_Y = 139.8;
-const TITLES =[
+const coordinates = {
+  MIN_X: 35.65,
+  MAX_X: 35.7,
+  MIN_Y: 139.7,
+  MAX_Y: 139.8,
+};
+const TITLES = [
   'Шикарный дворец',
   'Милая квартирка в центре Токио',
   'Бунгало у моря',
@@ -22,8 +24,8 @@ const PHOTOS = [
  * @return {object}
  */
 const createAd = () => {
-  let x = getRandomDecimalNumber(MIN_X, MAX_X, 5);
-  let y = getRandomDecimalNumber(MIN_Y, MAX_Y, 5);
+  let x = getRandomDecimalNumber(coordinates.MIN_X, coordinates.MAX_X, 5);
+  let y = getRandomDecimalNumber(coordinates.MIN_Y, coordinates.MAX_Y, 5);
   return {
     author: {
       avatar: 'img/avatars/user0' + getRandomInteger(1, 8) + '.png',
@@ -38,7 +40,7 @@ const createAd = () => {
       checkin: getRandomElementFromArray(CHECK_TIME),
       checkout: getRandomElementFromArray(CHECK_TIME),
       features: getRandomArray(FEATURES),
-      description: 'Описание',
+      description: 'Великолепное жилье в центре Токио. Подходит как туристам, так и бизнесменам.',
       photos: getRandomArray(PHOTOS),
     },
     location: {
@@ -50,17 +52,18 @@ const createAd = () => {
 
 /*const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
 */
+
 /**
  * Функция, генерирующая массив со случайными объявлениями
  * @param {number} count - количество элементов массива
  * @return {array}  - массив случайных объявлений
  */
-const similarAds = (count) => {
+const generateAds = (count) => {
   let ads = [];
-  for (let i=0; i < count; i++) {
+  for (let i = 0; i < count; i++) {
     ads[i] = createAd();
   }
   return ads;
 }
 
-export {similarAds};
+export {generateAds};
