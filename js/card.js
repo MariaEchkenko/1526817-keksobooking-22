@@ -20,13 +20,14 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const makePlural = (numeral, declension) => {
   let n = numeral % 10;
   if (n == 1 & numeral != 11) {
-    return numeral + ' ' +  declension[0];
+    return `${numeral} ${declension[0]}`;
   }
-  if (n == 2 || n == 3 || n == 4) {
-    return numeral + ' ' + declension[1];
+  if ((numeral < 10 || numeral > 20) && (n == 2 || n == 3 || n == 4)) {
+    return `${numeral} ${declension[1]}`;
   }
-  return numeral + ' ' +  declension[2];
+  return `${numeral} ${declension[2]}`;
 }
+
 
 /**
  * Функция для создания списка преимуществ
@@ -64,10 +65,10 @@ const createCardElement = (createAd) => {
   card.querySelector('.popup__avatar').src = createAd.author.avatar;
   card.querySelector('.popup__title').textContent = createAd.offer.title;
   card.querySelector('.popup__text--address').textContent = createAd.offer.address;
-  card.querySelector('.popup__text--price').textContent = createAd.offer.price + ' ₽/ночь'; //Переписать шаблонными строками
+  card.querySelector('.popup__text--price').textContent = `${createAd.offer.price} ₽/ночь`;
   card.querySelector('.popup__type').textContent = propertyType[createAd.offer.type];
-  card.querySelector('.popup__text--capacity').textContent = makePlural(createAd.offer.rooms, ROOMS) + ' для ' + makePlural(createAd.offer.guests, GUESTS); //Переписать шаблонными строками
-  card.querySelector('.popup__text--time').textContent = 'Заезд после ' + createAd.offer.checkin + ', выезд до  ' + createAd.offer.checkout;
+  card.querySelector('.popup__text--capacity').textContent = `${makePlural(createAd.offer.rooms, ROOMS)} для ${makePlural(createAd.offer.guests, GUESTS)}`;
+  card.querySelector('.popup__text--time').textContent = `Заезд после ${createAd.offer.checkin}, выезд до ${createAd.offer.checkout}`;
   card.querySelector('.popup__description').textContent = createAd.offer.description;
 
   const featuresList = card.querySelector('.popup__features');
@@ -85,3 +86,20 @@ const createCardElement = (createAd) => {
 };
 
 export {createCardElement};
+
+/*const FEATURES = ['wifi', 'parking', 'washer', 'elevator', 'conditioner'];
+const listOfFeatures = cardTemplate.querySelector('.popup__features');
+const liArray = listOfFeatures.querySelectorAll('.popup__feature');
+const newArray = [];
+
+const findElem = (elem, array) => {
+  const basicClass = 'popup__feature--';
+  for (let i = 1; i < array.length; i++) {
+    if (elem.classList.contains(basicClass + array[i])) {
+      return elem;
+    }
+  }
+}
+*/
+
+
