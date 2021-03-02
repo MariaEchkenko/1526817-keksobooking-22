@@ -1,5 +1,6 @@
 import {getRandomInteger, getRandomDecimalNumber, getRandomElementFromArray, getRandomArray} from './util.js'
 
+const SIMILAR_AD_COUNT = 10;
 const coordinates = {
   MIN_X: 35.65,
   MAX_X: 35.7,
@@ -50,9 +51,6 @@ const createAd = () => {
   };
 };
 
-/*const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
-*/
-
 /**
  * Функция, генерирующая массив со случайными объявлениями
  * @param {number} count - количество элементов массива
@@ -66,4 +64,6 @@ const generateAds = (count) => {
   return ads;
 }
 
-export {generateAds};
+let dataAds = generateAds(SIMILAR_AD_COUNT);
+
+export {dataAds};

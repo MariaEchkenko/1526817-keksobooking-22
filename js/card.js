@@ -28,7 +28,6 @@ const makePlural = (numeral, declension) => {
   return `${numeral} ${declension[2]}`;
 }
 
-
 /**
  * Функция для создания списка преимуществ
  * @param {array} featuresArray - исходный массив преимуществ
