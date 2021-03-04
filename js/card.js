@@ -28,7 +28,6 @@ const makePlural = (numeral, declension) => {
   return `${numeral} ${declension[2]}`;
 }
 
-
 /**
  * Функция для создания списка преимуществ
  * @param {array} featuresArray - исходный массив преимуществ
@@ -87,19 +86,5 @@ const createCardElement = (createAd) => {
 
 export {createCardElement};
 
-/*const FEATURES = ['wifi', 'parking', 'washer', 'elevator', 'conditioner'];
-const listOfFeatures = cardTemplate.querySelector('.popup__features');
-const liArray = listOfFeatures.querySelectorAll('.popup__feature');
-const newArray = [];
-
-const findElem = (elem, array) => {
-  const basicClass = 'popup__feature--';
-  for (let i = 1; i < array.length; i++) {
-    if (elem.classList.contains(basicClass + array[i])) {
-      return elem;
-    }
-  }
-}
-*/
 
 
