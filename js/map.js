@@ -1,5 +1,4 @@
 /* global L:readonly */
-import {dataAds} from './mock.js'
 import {createCardElement} from './card.js'
 import {setFormInactive, setFormActive} from './form.js'
 
@@ -52,29 +51,33 @@ mainPinMarker.on('moveend', (evt) => {
   ${evt.target.getLatLng().lng.toFixed(ROUND_STEP)}`;
 });
 
-dataAds.forEach(({author, offer, location}) => {
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+const addPinsOnMap = (pins) => {
+  pins.forEach(({author, offer, location}) => {
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const marker = L.marker(
-    {
-      lat: location.x,
-      lng: location.y,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCardElement({author, offer}),
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat: location.x,
+        lng: location.y,
+      },
+      {
+        icon,
       },
     );
-});
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createCardElement({author, offer}),
+        {
+          keepInView: true,
+        },
+      );
+  });
+}
+
+export {addPinsOnMap};

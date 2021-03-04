@@ -57,5 +57,4 @@ const setFormActive =() => {
 }
 
 export {setFormInactive, setFormActive};
-
-
+export {minPriceRent, selectTypeOfHouse, priceForRent};
