@@ -1,6 +1,5 @@
 import {getRandomInteger, getRandomDecimalNumber, getRandomElementFromArray, getRandomArray} from './util.js'
 
-const SIMILAR_AD_COUNT = 10;
 const coordinates = {
   MIN_X: 35.65,
   MAX_X: 35.7,
@@ -64,6 +63,4 @@ const generateAds = (count) => {
   return ads;
 }
 
-let dataAds = generateAds(SIMILAR_AD_COUNT);
-
-export {dataAds};
+export {generateAds};
