@@ -19,7 +19,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: defaultCoordinates.LAT,
     lng: defaultCoordinates.LNG,
-  }, 12);
+  }, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -61,8 +61,8 @@ const addPinsOnMap = (pins) => {
 
     const marker = L.marker(
       {
-        lat: location.x,
-        lng: location.y,
+        lat: location.lat,
+        lng: location.lng,
       },
       {
         icon,
@@ -80,4 +80,14 @@ const addPinsOnMap = (pins) => {
   });
 }
 
-export {addPinsOnMap};
+/**Функция возврата карты в исходное состояние*/
+const resetMap = () => {
+  adressForm.value = `${defaultCoordinates.LAT}, ${defaultCoordinates.LNG}`;
+  mainPinMarker.setLatLng([defaultCoordinates.LAT, defaultCoordinates.LNG]);
+  map.setView({
+    lat: defaultCoordinates.LAT,
+    lng: defaultCoordinates.LNG,
+  }, 10);
+}
+
+export {addPinsOnMap, resetMap};

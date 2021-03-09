@@ -82,7 +82,8 @@ const createCardElement = (createAd) => {
   imgList.appendChild(cardPhotos); //вставляем в разметку
 
   return card;
-};
+}
+
 
 export {createCardElement};
 

@@ -1,8 +1,13 @@
-import {generateAds} from './mock.js'
+import {getData} from './api.js'
 import {addPinsOnMap} from './map.js'
+import {createDataErrorMessage} from './form.js'
 import './form.js'
 import './validation.js'
 
-const SIMILAR_AD_COUNT = 10;
-let dataAds = generateAds(SIMILAR_AD_COUNT);
-addPinsOnMap(dataAds);
+getData(
+  (ads) => addPinsOnMap(ads),
+  () => createDataErrorMessage('Ошибка при загрузке данных'),
+);
+
+
+
