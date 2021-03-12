@@ -23,7 +23,7 @@ const roomsGuests = {
   100: [0],
 };
 
-/*Валидация заголовка*/
+/** Валидация заголовка */
 adTitle.addEventListener('invalid', () => {
   if (adTitle.validity.tooShort) {
     adTitle.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
@@ -36,7 +36,7 @@ adTitle.addEventListener('invalid', () => {
   }
 });
 
-/*Валидация цены*/
+/** Валидация цены */
 priceForRent.addEventListener('input', () => {
   let typeValue = selectTypeOfHouse.value
   if (priceForRent.value < minPriceRent[typeValue]) {
@@ -53,7 +53,7 @@ selectTypeOfHouse.addEventListener('change', (evt) => {
   priceForRent.min = priceForRent.placeholder = minPriceRent[evt.target.value];
 });
 
-/*Синхронизация полей заезда/выезда*/
+/** Синхронизация полей заезда/выезда */
 timeIn.addEventListener('change', (evt) => {
   timeOut.value = evt.target.value;
 });
@@ -62,7 +62,7 @@ timeOut.addEventListener('change', (evt) => {
   timeIn.value = evt.target.value;
 });
 
-/*Валидация полей количество комнат - количество гостей*/
+/** Валидация полей количество комнат - количество гостей */
 capacityOptions.forEach((option) => {
   option.disabled = true;
 });

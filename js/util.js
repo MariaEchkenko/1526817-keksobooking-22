@@ -62,4 +62,6 @@ const getRandomArray = (array) => {
   return newArray.slice(0, RANDOMCOUNTELEMENTS);
 };
 
+
+
 export {getRandomInteger, getRandomDecimalNumber, getRandomElementFromArray, getRandomArray}
