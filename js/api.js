@@ -1,5 +1,16 @@
+const urlData = {
+  get: 'https://22.javascript.pages.academy/keksobooking/data',
+  send: 'https://22.javascript.pages.academy/keksobooking',
+};
+
+/**
+ * Функция получения данных с сервера
+ * @param {*} onSuccess - колбэк при успешном выполнении запроса
+ * @param {*} onFail - колбэк при ошибке загрузки данных
+ * @return {*}
+ */
 const getData = (onSuccess, onFail) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
+  fetch(urlData.get)
     .then((response) => response.json())
     .then((ads) => {
       onSuccess(ads);
@@ -9,9 +20,16 @@ const getData = (onSuccess, onFail) => {
     });
 };
 
+/**
+ * Функция отправки данных на сервер
+ * @param {*} onSuccess - колбэк при успешном заполнении формы
+ * @param {*} onFail - колбэк при ошибке заполнении формы
+ * @param {*} body - данные формы
+ * @return {*}
+ */
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    ' https://22.javascript.pages.academy/keksobooking',
+    urlData.send,
     {
       method: 'POST',
       body,

@@ -1,14 +1,16 @@
 /* global L:readonly */
 import {createCardElement} from './card.js'
 import {setFormInactive, setFormActive} from './form.js'
+import {filtredData} from './filter.js'
 
-const defaultCoordinates = {
+const DefaultCoordinates = {
   LAT: 35.68950,
   LNG: 139.69171,
 }
 const ROUND_STEP = 5;
+const ZOOM_SCALE = 10;
 const adressForm = document.querySelector('#address');
-adressForm.value = `${defaultCoordinates.LAT}, ${defaultCoordinates.LNG}`;
+adressForm.value = `${DefaultCoordinates.LAT}, ${DefaultCoordinates.LNG}`;
 
 setFormInactive() /*Переводим форму в неактивное состояние*/
 
@@ -17,9 +19,9 @@ const map = L.map('map-canvas')
     setFormActive() /*Переход страницы в активное состояние*/
   })
   .setView({
-    lat: defaultCoordinates.LAT,
-    lng: defaultCoordinates.LNG,
-  }, 10);
+    lat: DefaultCoordinates.LAT,
+    lng: DefaultCoordinates.LNG,
+  }, ZOOM_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -35,8 +37,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: defaultCoordinates.LAT,
-    lng: defaultCoordinates.LNG,
+    lat: DefaultCoordinates.LAT,
+    lng: DefaultCoordinates.LNG,
   },
   {
     draggable: true,
@@ -51,8 +53,14 @@ mainPinMarker.on('moveend', (evt) => {
   ${evt.target.getLatLng().lng.toFixed(ROUND_STEP)}`;
 });
 
-const addPinsOnMap = (pins) => {
-  pins.forEach(({author, offer, location}) => {
+/**
+ * Функция создания меток
+ * @param {array} ads - массив объявлений
+ * @param {*} layer - слой, принимающий созданные метки
+ * @return {array}  - массив созданных меток
+ */
+const createPins = (ads, layer) => {
+  ads.forEach(({author, offer, location}) => {
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
@@ -70,24 +78,49 @@ const addPinsOnMap = (pins) => {
     );
 
     marker
-      .addTo(map)
+      .addTo(layer)
       .bindPopup(
         createCardElement({author, offer}),
         {
           keepInView: true,
         },
       );
-  });
+  })
+}
+
+let layerPins;
+
+/**
+ * Отрисовка меток на карте
+ * @param {array} data - массив всех объявлений, полученных с сервера
+ * @return {*}
+ */
+const addPinsOnMap = (data) => {
+  const markers = filtredData(data);
+  layerPins = L.layerGroup();
+  createPins(markers, layerPins);
+  layerPins.addTo(map);
+};
+
+/**
+ * Ререндеринг меток при фильтрации
+ * @param {array} data - массив всех объявлений, полученных с сервера
+ * @return {*}
+ */
+const renderPins = (data) => {
+  map.removeLayer(layerPins);
+  addPinsOnMap(data);
 }
 
 /**Функция возврата карты в исходное состояние*/
 const resetMap = () => {
-  adressForm.value = `${defaultCoordinates.LAT}, ${defaultCoordinates.LNG}`;
-  mainPinMarker.setLatLng([defaultCoordinates.LAT, defaultCoordinates.LNG]);
+  adressForm.value = `${DefaultCoordinates.LAT}, ${DefaultCoordinates.LNG}`;
+  mainPinMarker.setLatLng([DefaultCoordinates.LAT, DefaultCoordinates.LNG]);
   map.setView({
-    lat: defaultCoordinates.LAT,
-    lng: defaultCoordinates.LNG,
-  }, 10);
+    lat: DefaultCoordinates.LAT,
+    lng: DefaultCoordinates.LNG,
+  }, ZOOM_SCALE);
+  map.removeLayer(layerPins);
 }
 
-export {addPinsOnMap, resetMap};
+export {addPinsOnMap, renderPins, resetMap};

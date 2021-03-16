@@ -1,4 +1,4 @@
-import './mock.js';
+
 
 const propertyType = {
   palace: 'Дворец',
