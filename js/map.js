@@ -120,7 +120,7 @@ const resetMap = () => {
     lat: DefaultCoordinates.LAT,
     lng: DefaultCoordinates.LNG,
   }, ZOOM_SCALE);
-  map.removeLayer(layerPins);
+  renderPins();
 }
 
 export {addPinsOnMap, renderPins, resetMap};

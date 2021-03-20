@@ -20,6 +20,31 @@ const getData = (onSuccess, onFail) => {
     });
 };
 
+/* Попытка переписать на async/await
+
+const getData = async () => {
+  let responce;
+  try {
+    responce = await fetch(urlData.get);
+  } catch (error) => {
+      onFail('Ошибка при загрузке данных'); - сюда функцию создания сообщения об ошибке?
+    };
+
+  const ads = await response.json();
+  return ads;
+}
+
+(async () => {
+  const ads = await getData();
+  (ads) => {
+    addPinsOnMap(ads);
+    setFilterChange(debounce(() => renderPins(ads), RERENDER_TIME));
+  }
+})
+
+*/
+
+
 /**
  * Функция отправки данных на сервер
  * @param {*} onSuccess - колбэк при успешном заполнении формы

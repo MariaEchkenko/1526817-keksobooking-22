@@ -1,4 +1,7 @@
+import {makePlural} from './util.js';
 
+const ROOMS = ['комната', 'комнаты', 'комнат'];
+const GUESTS = ['гостя', 'гостей', 'гостей'];
 
 const propertyType = {
   palace: 'Дворец',
@@ -6,27 +9,8 @@ const propertyType = {
   house: 'Дом',
   bungalow: 'Бунгало',
 };
-const ROOMS = ['комната', 'комнаты', 'комнат'];
-const GUESTS = ['гостя', 'гостей', 'гостей'];
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-/**
- * Функция для склонения существительных
- * @param {number} numeral - числовое значение
- * @param {array} declension - массив с вариантами склонения существительного
- * @return {*}
- */
-const makePlural = (numeral, declension) => {
-  let n = numeral % 10;
-  if (n == 1 & numeral != 11) {
-    return `${numeral} ${declension[0]}`;
-  }
-  if ((numeral < 10 || numeral > 20) && (n == 2 || n == 3 || n == 4)) {
-    return `${numeral} ${declension[1]}`;
-  }
-  return `${numeral} ${declension[2]}`;
-}
 
 /**
  * Функция для создания списка преимуществ
@@ -59,6 +43,17 @@ const createPhotos = (photosArray, template) => {
   return photosFragment;
 }
 
+/**
+ * Функция, проверяющая наличие данных
+ * @param {array} content - данные, полученные с сервера
+ * @param {*} element - DOM-элемент разметки
+ */
+const chechAvailability = (content, element) => {
+  if(!content.length) {
+    element.remove();
+  }
+}
+
 const createCardElement = (createAd) => {
   const card = cardTemplate.cloneNode(true);
   card.querySelector('.popup__avatar').src = createAd.author.avatar;
@@ -74,12 +69,14 @@ const createCardElement = (createAd) => {
   featuresList.innerHTML = ''; //удаляем в разметке все элементы списка преимуществ
   const cardFeaturesItems = createFeaturesItem(createAd.offer.features); //создаем список в соответствии с нашим случайным массивом
   featuresList.appendChild(cardFeaturesItems); //вставляем в разметку
+  chechAvailability(createAd.offer.features, featuresList)
 
   const imgList = card.querySelector('.popup__photos');
   const imgTemplate = imgList.querySelector('.popup__photo'); // находим шаблон для img
   imgList.innerHTML = ''; //удаляем в разметке все элементы блока фото
   const cardPhotos = createPhotos(createAd.offer.photos, imgTemplate); //создаем список в соответствии с нашим случайным массивом
   imgList.appendChild(cardPhotos); //вставляем в разметку
+  chechAvailability(createAd.offer.photos, imgList);
 
   return card;
 }

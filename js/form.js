@@ -59,5 +59,5 @@ buttonReset.addEventListener('click', (evt) => {
   resetMap();
 });
 
-export {setFormInactive, setFormActive};
+export {setFormInactive, setFormActive, mapFilters};
 
