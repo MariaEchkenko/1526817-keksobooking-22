@@ -22,10 +22,10 @@ const priceRange = {
 
 /**
  * Правило фильтрации объекта
- * @param {object} element - объявление, приходящее с сервера
+ * @param {object} ad - объявление, приходящее с сервера
  * @return {Boolean}
  */
-const filterRule = (element) => {
+const filterRules = (ad) => {
   let isType = true;
   let isRooms = true;
   let isGuests = true;
@@ -33,26 +33,26 @@ const filterRule = (element) => {
   let isFeatures = true;
 
   if (selectHouseType.value !== 'any') {
-    isType = element.offer.type === selectHouseType.value;
+    isType = ad.offer.type === selectHouseType.value;
   }
 
   if (selectHouseRooms.value !== 'any') {
-    isRooms = element.offer.rooms.toString() === selectHouseRooms.value;
+    isRooms = ad.offer.rooms.toString() === selectHouseRooms.value;
   }
 
   if (selectHouseGuests.value !== 'any') {
-    isRooms = element.offer.guests.toString() === selectHouseGuests.value;
+    isRooms = ad.offer.guests.toString() === selectHouseGuests.value;
   }
 
   let selectPrice = selectHousePrice.value;
   if (selectPrice!== 'any') {
-    isPrice = element.offer.price >= priceRange[selectPrice].min && element.offer.price < priceRange[selectPrice].max
+    isPrice = ad.offer.price >= priceRange[selectPrice].min && ad.offer.price < priceRange[selectPrice].max
   }
 
   let checkedFeatures = document.querySelectorAll('input[type="checkbox"]:checked');
-  if (checkedFeatures.length !== 0) {
+  if (checkedFeatures) {
     checkedFeatures.forEach((feature) => {
-      if (element.offer.features.indexOf(feature.value) === -1) {
+      if (ad.offer.features.indexOf(feature.value) === -1) {
         isFeatures = false;
       }
     });
@@ -68,16 +68,16 @@ const filterRule = (element) => {
  */
 const filtredData = (data) => {
   const filtredAds = [];
-  let ad;
-  for (let i = 0; i < data.length; i++) {
-    ad = data[i];
-    if (filterRule(ad)) {
+
+  data.forEach((ad) => {
+    if (filterRules(ad)) {
       filtredAds.push(ad);
     }
     if (filtredAds.length === AD_COUNT) {
       return filtredAds;
     }
-  }
+  })
+
   return filtredAds;
 };
 

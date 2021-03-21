@@ -1,33 +1,24 @@
 /* global L:readonly */
-import {createCardElement} from './card.js'
-import {setFormInactive, setFormActive} from './form.js'
-import {filtredData} from './filter.js'
 
+import {debounce} from './util.js';
+import {getData} from './api.js';
+import {createDataErrorPopup} from './popup.js';
+import {setFilterChange, filtredData} from './filter.js';
+import {setFormActive, resetForm, sendForm} from './form.js'
+import {createCardElement} from './card.js'
+
+const RERENDER_TIME = 500;
 const DefaultCoordinates = {
   LAT: 35.68950,
   LNG: 139.69171,
 }
 const ROUND_STEP = 5;
 const ZOOM_SCALE = 10;
+
 const adressForm = document.querySelector('#address');
 adressForm.value = `${DefaultCoordinates.LAT}, ${DefaultCoordinates.LNG}`;
 
-setFormInactive() /*Переводим форму в неактивное состояние*/
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-    setFormActive() /*Переход страницы в активное состояние*/
-  })
-  .setView({
-    lat: DefaultCoordinates.LAT,
-    lng: DefaultCoordinates.LNG,
-  }, ZOOM_SCALE);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const map = L.map('map-canvas');
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -46,12 +37,47 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+/**
+ * Функция инициализации карты
+ * @returns
+ */
+const initMap = () => {
+  map
+    .on('load', () => {
+      setFormActive();/*Переход страницы в активное состояние*/
+      getData(
+        (ads) => {
+          renderPins(ads);
+          setFilterChange(debounce(() => {
+            clearPins();
+            renderPins(ads);
+          }, RERENDER_TIME));
+          sendForm(ads);
+          resetForm(ads);
+        },
+        () => createDataErrorPopup('Ошибка при загрузке данных'),
+      );
+    })
+    .setView({
+      lat: DefaultCoordinates.LAT,
+      lng: DefaultCoordinates.LNG,
+    }, ZOOM_SCALE);
 
-mainPinMarker.on('moveend', (evt) => {
-  adressForm.value = `${evt.target.getLatLng().lat.toFixed(ROUND_STEP)},
-  ${evt.target.getLatLng().lng.toFixed(ROUND_STEP)}`;
-});
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+
+  mainPinMarker.on('moveend', (evt) => {
+    adressForm.value = `${evt.target.getLatLng().lat.toFixed(ROUND_STEP)},
+    ${evt.target.getLatLng().lng.toFixed(ROUND_STEP)}`;
+  });
+
+  mainPinMarker.addTo(map);
+
+  return map;
+}
 
 /**
  * Функция создания меток
@@ -95,7 +121,7 @@ let layerPins;
  * @param {array} data - массив всех объявлений, полученных с сервера
  * @return {*}
  */
-const addPinsOnMap = (data) => {
+const renderPins = (data) => {
   const markers = filtredData(data);
   layerPins = L.layerGroup();
   createPins(markers, layerPins);
@@ -103,16 +129,15 @@ const addPinsOnMap = (data) => {
 };
 
 /**
- * Ререндеринг меток при фильтрации
- * @param {array} data - массив всех объявлений, полученных с сервера
- * @return {*}
+ * Функция удаления слоя с текущими метками
  */
-const renderPins = (data) => {
+const clearPins = () => {
   map.removeLayer(layerPins);
-  addPinsOnMap(data);
 }
 
-/**Функция возврата карты в исходное состояние*/
+/**
+ * Функция возврата карты в исходное состояние
+*/
 const resetMap = () => {
   adressForm.value = `${DefaultCoordinates.LAT}, ${DefaultCoordinates.LNG}`;
   mainPinMarker.setLatLng([DefaultCoordinates.LAT, DefaultCoordinates.LNG]);
@@ -120,7 +145,6 @@ const resetMap = () => {
     lat: DefaultCoordinates.LAT,
     lng: DefaultCoordinates.LNG,
   }, ZOOM_SCALE);
-  renderPins();
 }
 
-export {addPinsOnMap, renderPins, resetMap};
+export {initMap, renderPins, clearPins, resetMap};

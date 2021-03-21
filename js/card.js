@@ -81,7 +81,6 @@ const createCardElement = (createAd) => {
   return card;
 }
 
-
 export {createCardElement};
 
 
