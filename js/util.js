@@ -21,13 +21,11 @@ const makePlural = (numeral, declension) => {
  */
 const debounce = (func, timeWait) => {
   let timeout;
-  return function () {
-    const funcCall = () => {
-      func.apply(this, arguments)
-    };
+  return  () => {
+
     clearTimeout(timeout);
-    timeout = setTimeout(funcCall, timeWait);
+    timeout = setTimeout(func, timeWait);
   };
 }
 
-export {/*getRandomInteger, getRandomDecimalNumber, getRandomElementFromArray, getRandomArray,*/ makePlural, debounce}
+export {makePlural, debounce}

@@ -1,6 +1,7 @@
 import {sendData} from './api.js';
 import {resetMap, clearPins, renderPins} from './map.js';
 import {createSuccessPopup, createErrorPopup} from './popup.js';
+import {clearAvatar, clearAdPhoto} from './form-photo.js';
 
 const form = document.querySelector('.ad-form');
 const formElements = form.querySelectorAll('fieldset');
@@ -44,7 +45,9 @@ const setDefault = (data) => {
   mapFilters.reset();
   resetMap();
   clearPins();
-  renderPins(data)
+  clearAvatar();
+  clearAdPhoto();
+  renderPins(data);
 }
 
 /**
