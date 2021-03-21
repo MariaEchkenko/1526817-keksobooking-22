@@ -1,17 +1,7 @@
-import {getData} from './api.js'
-import {addPinsOnMap, renderPins} from './map.js'
-import {createDataErrorMessage} from './popup.js'
-/*import './form.js'*/
-import './validation.js'
-import {setFilterChange} from './filter.js'
+import './validation.js';
+import './form-photo.js';
+import {setFormInactive} from './form.js';
+import {initMap} from './map.js';
 
-getData(
-  (ads) => {
-    addPinsOnMap(ads);
-    setFilterChange(() => renderPins(ads));
-  },
-  () => createDataErrorMessage('Ошибка при загрузке данных'),
-);
-
-
-
+setFormInactive();
+initMap();
