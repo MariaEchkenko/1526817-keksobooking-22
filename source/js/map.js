@@ -1,10 +1,11 @@
-/* global L:readonly */
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 import {debounce} from './util.js';
 import {getData} from './api.js';
 import {createDataErrorPopup} from './popup.js';
-import {setFilterChange, filtredData} from './filter.js';
-import {setFormActive, resetForm, sendForm} from './form.js'
+import {onFilterChange, filterData} from './filter.js';
+import {setFormActive, onFormReset, onFormSubmit} from './form.js'
 import {createCardElement} from './card.js'
 
 const RERENDER_TIME = 500;
@@ -48,12 +49,12 @@ const initMap = () => {
       getData(
         (ads) => {
           renderPins(ads);
-          setFilterChange(debounce(() => {
+          onFilterChange(debounce(() => {
             clearPins();
             renderPins(ads);
           }, RERENDER_TIME));
-          sendForm(ads);
-          resetForm(ads);
+          onFormSubmit(ads);
+          onFormReset(ads);
         },
         () => createDataErrorPopup('Ошибка при загрузке данных'),
       );
@@ -122,7 +123,7 @@ let layerPins;
  * @return {*}
  */
 const renderPins = (data) => {
-  const markers = filtredData(data);
+  const markers = filterData(data);
   layerPins = L.layerGroup();
   createPins(markers, layerPins);
   layerPins.addTo(map);

@@ -1,10 +1,6 @@
 import {mapFilters} from './form.js';
 
 const AD_COUNT = 10;
-const selectHouseType = document.querySelector('#housing-type');
-const selectHouseRooms = document.querySelector('#housing-rooms');
-const selectHouseGuests = document.querySelector('#housing-guests');
-const selectHousePrice = document.querySelector('#housing-price');
 const priceRange = {
   low: {
     min: 0,
@@ -19,6 +15,11 @@ const priceRange = {
     max: 1000000,
   },
 };
+
+const selectHouseType = document.querySelector('#housing-type');
+const selectHouseRooms = document.querySelector('#housing-rooms');
+const selectHouseGuests = document.querySelector('#housing-guests');
+const selectHousePrice = document.querySelector('#housing-price');
 
 /**
  * Правило фильтрации объекта
@@ -66,7 +67,7 @@ const filterRules = (ad) => {
  * @param {array} data - массив всех объявлений, полученных с сервера
  * @return {array} - массив отфильтрованных объявлений
  */
-const filtredData = (data) => {
+const filterData = (data) => {
   const filtredAds = [];
 
   data.forEach((ad) => {
@@ -85,11 +86,11 @@ const filtredData = (data) => {
  *  Функция установки фильтра
  *  @param {} cb - колбэк, вызываемый при изменении фильтра
 */
-const setFilterChange = (cb) => {
+const onFilterChange = (cb) => {
   mapFilters.addEventListener('change', () => {
     cb();
   })
 }
 
-export {filtredData, setFilterChange};
+export {filterData, onFilterChange};
 

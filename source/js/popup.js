@@ -55,7 +55,7 @@ const createErrorPopup = () => {
 /** Создание сообщения при ошибке загрузки данных с сервера */
 const createDataErrorPopup = (popupText) => {
   const dataErrorPopup = successTemplate.cloneNode(true);
-  dataErrorPopup.style.zIndex = 1000;
+  dataErrorPopup.style.zIndex = Z_INDEX_POPUP;
   const dataErrorText = dataErrorPopup.querySelector('.success__message');
   dataErrorText.textContent = popupText;
   main.appendChild(dataErrorPopup);
