@@ -6,10 +6,10 @@
  */
 const makePlural = (numeral, declension) => {
   let n = numeral % 10;
-  if (n == 1 & numeral != 11) {
+  if (n === 1 & numeral !== 11) {
     return `${numeral} ${declension[0]}`;
   }
-  if ((numeral < 10 || numeral > 20) && (n == 2 || n == 3 || n == 4)) {
+  if ((numeral < 10 || numeral > 20) && (n === 2 || n === 3 || n === 4)) {
     return `${numeral} ${declension[1]}`;
   }
   return `${numeral} ${declension[2]}`;
