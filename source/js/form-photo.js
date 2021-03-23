@@ -1,20 +1,28 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const ImagePattern = {
+const imagePattern = {
   width: 40,
   height: 45,
   alt: 'Фотография жилья',
 }
 
-
+/**
+ * Функция создания элемента <img>
+ * @returns DOM-элемент <img>
+ */
 const createImage = () => {
   const image = document.createElement('img');
   image.src = '';
-  image.width = ImagePattern.width;
-  image.height = ImagePattern.height;
-  image.alt = ImagePattern.alt;
+  image.width = imagePattern.width;
+  image.height = imagePattern.height;
+  image.alt = imagePattern.alt;
   return image;
 }
 
+/**
+ * Функция отображения превью у изображений
+ * @param {*} upload - элемент, на котором происходит выбор изображения
+ * @param {*} preview - элемент, в котором отображается превью
+ */
 const onFileUpload = (upload, preview) => {
   const file = upload.files[0];
   const fileName = file.name.toLowerCase();
@@ -58,8 +66,10 @@ adPhotoFileUpload.addEventListener('change', () => {
 });
 
 const clearAdPhoto = () => {
-  adPhotoPreview.children[0].remove()
-}
+  if (adPhotoPreview.children.length) {
+    adPhotoPreview.children[0].remove();
+  }
+};
 
 export {clearAvatar, clearAdPhoto};
 

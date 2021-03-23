@@ -48,7 +48,7 @@ const createPhotos = (photosArray, template) => {
  * @param {array} content - данные, полученные с сервера
  * @param {*} element - DOM-элемент разметки
  */
-const chechAvailability = (content, element) => {
+const checkAvailability = (content, element) => {
   if(!content.length) {
     element.remove();
   }
@@ -69,14 +69,14 @@ const createCardElement = (createAd) => {
   featuresList.innerHTML = ''; //удаляем в разметке все элементы списка преимуществ
   const cardFeaturesItems = createFeaturesItem(createAd.offer.features); //создаем список в соответствии с нашим случайным массивом
   featuresList.appendChild(cardFeaturesItems); //вставляем в разметку
-  chechAvailability(createAd.offer.features, featuresList)
+  checkAvailability(createAd.offer.features, featuresList)
 
   const imgList = card.querySelector('.popup__photos');
   const imgTemplate = imgList.querySelector('.popup__photo'); // находим шаблон для img
   imgList.innerHTML = ''; //удаляем в разметке все элементы блока фото
   const cardPhotos = createPhotos(createAd.offer.photos, imgTemplate); //создаем список в соответствии с нашим случайным массивом
   imgList.appendChild(cardPhotos); //вставляем в разметку
-  chechAvailability(createAd.offer.photos, imgList);
+  checkAvailability(createAd.offer.photos, imgList);
 
   return card;
 }

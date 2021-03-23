@@ -22,7 +22,6 @@ const makePlural = (numeral, declension) => {
 const debounce = (func, timeWait) => {
   let timeout;
   return  () => {
-
     clearTimeout(timeout);
     timeout = setTimeout(func, timeWait);
   };

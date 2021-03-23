@@ -63,7 +63,7 @@ const sendFormSuccess = (data) => {
  * Отправка формы
  * @param {array} data - массив объявлений, приходящих с сервера
  */
-const sendForm = (data) => {
+const onFormSubmit = (data) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -80,7 +80,7 @@ const buttonReset = form.querySelector('.ad-form__reset');
  * Очистка формы
  * @param {array} data - массив объявлений, приходящих с сервера
  */
-const resetForm = (data) => {
+const onFormReset = (data) => {
   buttonReset.addEventListener('click', (evt) => {
     evt.preventDefault();
 
@@ -88,4 +88,4 @@ const resetForm = (data) => {
   });
 }
 
-export {mapFilters, setFormInactive, setFormActive, sendForm, resetForm};
+export {mapFilters, setFormInactive, setFormActive, onFormSubmit, onFormReset};
