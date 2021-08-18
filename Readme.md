@@ -8,11 +8,11 @@
  - Leaflet.js
  - Webpack
 
-Установка зависимостей npm i
+Установка зависимостей `npm i`
 
-Запуск в dev режиме npm run start
+Запуск в dev режиме `npm run start`
 
-Запуск в prod режиме npm run build
+Запуск в prod режиме `npm run build`
 
 <a href="https://htmlacademy.ru/intensive/javascript"><img align="left" width="50" height="50" alt="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github-2.png"></a>
 
