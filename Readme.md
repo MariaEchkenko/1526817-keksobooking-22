@@ -4,9 +4,9 @@
 * Наставник: [Антон Попов].(https://github.com/ademaro)
 
 Используемые технологии:
-Vanilla JavaScript
-Leaflet.js
-Webpack
+ - Vanilla JavaScript
+ - Leaflet.js
+ - Webpack
 
 Установка зависимостей npm i
 
